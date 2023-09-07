@@ -37,6 +37,12 @@ const createUserSchema = {
     password: passwordSchema.required()
 };
 
+const loginUserSchema = {
+    email: emailSchema.required(),
+    password: passwordSchema.required()
+};
+
 module.exports = {
-    createUserSchema
+    createUserSchema,
+    loginUserSchema
 };

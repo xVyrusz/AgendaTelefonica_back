@@ -15,6 +15,22 @@ const userCreation = async (data) => {
     }
 };
 
+const userLogin = async (user) => {
+    const data = await store.userByEmail(user.email);
+    if (!data) throw boom.badData('Email or password are invalid');
+
+    const passwordMatched = await bcrypt.compare(user.password, data.password);
+
+    if (!passwordMatched) throw boom.badData('Email or password are invalid');
+
+    return {
+        id: data._id,
+        name: data.name,
+        email: data.email
+    };
+};
+
 module.exports = {
-    userCreation
+    userCreation,
+    userLogin
 };

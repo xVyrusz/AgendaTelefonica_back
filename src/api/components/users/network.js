@@ -61,12 +61,11 @@ router.post(
 
             const user = await controller.userLogin(loginUser);
             const token = await createToken(user);
-
             res.cookie('token', token);
             res.status(201).json({
                 Message: 'Login',
                 User: {
-                    id: user._id,
+                    id: user.id,
                     name: user.name,
                     email: user.email
                 }

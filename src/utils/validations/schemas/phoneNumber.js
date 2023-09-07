@@ -37,14 +37,20 @@ const userIdSchema = joi
     .string()
     .max(80)
     .regex(/^[a-zA-Z0-9]+$/)
-    .message(
-        'Error with the token'
-    );
+    .message('Error with the token');
 
 const addPhoneNumberSchema = {
     userId: userIdSchema,
     name: nameSchema.required(),
     phoneNumber: phoneNumberSchema.required(),
+    email: emailSchema,
+    address: addressSchema,
+    group: groupSchema
+};
+
+const updatePhoneNumberSchema = {
+    name: nameSchema,
+    phoneNumber: phoneNumberSchema,
     email: emailSchema,
     address: addressSchema,
     group: groupSchema
@@ -60,5 +66,6 @@ const listPhoneNumberSchema = {
 
 module.exports = {
     addPhoneNumberSchema,
-    listPhoneNumberSchema
+    listPhoneNumberSchema,
+    updatePhoneNumberSchema
 };

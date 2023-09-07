@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {
     addPhoneNumberSchema,
-    listPhoneNumberSchema
+    listPhoneNumberSchema,
+    updatePhoneNumberSchema
 } = require('../../../utils/validations/schemas/phoneNumber'); // eslint-disable-line
 const validationHandler = require('../../../utils/middlewares/validationHandler');
 const controller = require('./controller');
@@ -52,6 +53,54 @@ router.post(
                     address: data.address,
                     group: data.group
                 }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
+router.delete('/delete/:id', checkJwt, async (req, res, next) => {
+    try {
+        const userId = req.userData.id;
+        const phoneNumberId = req.params.id;
+
+        const data = {
+            _id: phoneNumberId,
+            userId: userId
+        };
+
+        const dataDeleted = await controller.phoneNumberDelete(data);
+
+        res.status(201).json({
+            Message: 'Deleted',
+            PhoneNumber: dataDeleted
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.put(
+    '/update/:id',
+    checkJwt,
+    validationHandler(updatePhoneNumberSchema),
+    async (req, res, next) => {
+        try {
+            const userId = req.userData.id;
+            const phoneNumberId = req.params.id;
+            const body = req.body;
+
+            const data = {
+                _id: phoneNumberId,
+                userId: userId
+            };
+
+            const dataUpdated = await controller.phoneNumberUpdate(data, body);
+
+            res.status(201).json({
+                Message: 'Updated',
+                PhoneNumber: dataUpdated
             });
         } catch (error) {
             next(error);

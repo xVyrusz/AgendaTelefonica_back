@@ -2,11 +2,11 @@ const store = require('./store');
 const boom = require('@hapi/boom');
 
 const phoneNumberCreation = async (data) => {
-    return await store.phoneNumberCreate(data);
+    return await store.createPhoneNumber(data);
 };
 
 const phoneNumberList = async (userId) => {
-    const objPhoneNumber = await store.phoneNumberByUserId(userId);
+    const objPhoneNumber = await store.getPhoneNumberByUserId(userId);
 
     if (objPhoneNumber.length === 0) {
         throw boom.conflict('Phone numbers not found');
@@ -15,7 +15,28 @@ const phoneNumberList = async (userId) => {
     }
 };
 
+const phoneNumberDelete = async (data) => {
+    const objPhoneNumber = await store.deletePhoneNumber(data);
+
+    if (objPhoneNumber === null) {
+        throw boom.conflict('Phone number not found');
+    } else {
+        return await objPhoneNumber;
+    }
+};
+
+const phoneNumberUpdate = async (data, body) => {
+    const objPhoneNumber = await store.getPhoneNumberById(data);
+    if (objPhoneNumber === null) {
+        throw boom.conflict('Phone number not found');
+    } else {
+        return await store.updatePhoneNumber(data, body);
+    }
+};
+
 module.exports = {
     phoneNumberCreation,
-    phoneNumberList
+    phoneNumberList,
+    phoneNumberDelete,
+    phoneNumberUpdate
 };

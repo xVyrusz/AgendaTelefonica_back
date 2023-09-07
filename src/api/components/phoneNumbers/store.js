@@ -11,6 +11,18 @@ const createPhoneNumber = async (data) => {
     });
 };
 
+const deletePhoneNumber = async (data) => {
+    return await phoneNumberModel.findByIdAndDelete(data);
+};
+
+const updatePhoneNumber = async (data, body) => {
+    return await phoneNumberModel.findByIdAndUpdate(data, body, { new: true });
+};
+
+const getPhoneNumberById = async (_id) => {
+    return await phoneNumberModel.findById(_id);
+};
+
 const getPhoneNumberByNumber = async (phoneNumber) => {
     return await phoneNumberModel.findOne({
         phoneNumber: phoneNumber
@@ -24,7 +36,10 @@ const getPhoneNumberByUserId = async (userId) => {
 };
 
 module.exports = {
-    phoneNumberCreate: createPhoneNumber,
-    phoneNumberByNumber: getPhoneNumberByNumber,
-    phoneNumberByUserId: getPhoneNumberByUserId
+    createPhoneNumber,
+    getPhoneNumberByNumber,
+    getPhoneNumberByUserId,
+    deletePhoneNumber,
+    updatePhoneNumber,
+    getPhoneNumberById
 };

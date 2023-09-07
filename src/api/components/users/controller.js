@@ -24,7 +24,7 @@ const userLogin = async (user) => {
     if (!passwordMatched) throw boom.badData('Email or password are invalid');
 
     return {
-        id: data._id,
+        _id: data._id,
         name: data.name,
         email: data.email
     };

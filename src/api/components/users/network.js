@@ -8,16 +8,6 @@ const validationHandler = require('../../../utils/middlewares/validationHandler'
 const controller = require('./controller');
 const { createToken } = require('../../../utils/createJwt');
 
-router.get('/', async (req, res, next) => {
-    try {
-        res.status(200).json({
-            Message: 'Hello!'
-        });
-    } catch (error) {
-        next(error);
-    }
-});
-
 router.post(
     '/register',
     validationHandler(createUserSchema),
@@ -37,7 +27,7 @@ router.post(
             res.status(201).json({
                 Message: 'Created',
                 User: {
-                    id: user._id,
+                    _id: user._id,
                     name: user.name,
                     email: user.email
                 }
@@ -65,7 +55,7 @@ router.post(
             res.status(201).json({
                 Message: 'Login',
                 User: {
-                    id: user.id,
+                    _id: user._id,
                     name: user.name,
                     email: user.email
                 }

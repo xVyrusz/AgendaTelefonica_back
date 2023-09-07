@@ -4,10 +4,10 @@ const boom = require('@hapi/boom');
 
 module.exports = (req, res, next) => {
     try {
-        let token = req.headers.authorization;
+        let token = req.headers.cookie;
         let finalToken;
-        if(token) {
-            finalToken = token.split(' ')[1];
+        if (token) {
+            finalToken = token.split('=')[1];
         } else {
             throw boom.proxyAuthRequired('Bearer token is required 🐻');
         }
@@ -15,7 +15,8 @@ module.exports = (req, res, next) => {
         req.userData = decoded;
         next();
     } catch (error) {
-        if(error.message === "jwt expired") throw boom.unauthorized('Your JWT has been expired 🕐');
+        if (error.message === 'jwt expired')
+            throw boom.unauthorized('Your JWT has been expired 🕐');
         throw boom.badRequest(error.message);
     }
-}
+};

@@ -1,28 +1,48 @@
 const express = require('express');
 const router = express.Router();
-const { createUserSchema, userIdSchema, updateUserSchema } = require('../../../utils/validations/schemas/userExample'); // eslint-disable-line
+const { createUserSchema } = require('../../../utils/validations/schemas/user'); // eslint-disable-line
 const validationHandler = require('../../../utils/middlewares/validationHandler');
+const controller = require('./controller');
+const { createToken } = require('../../../utils/createJwt');
 
-router.get('/', (req, res, next) => {
-    
+router.get('/', async (req, res, next) => {
     try {
         res.status(200).json({
-            Message: "Hello!"
+            Message: 'Hello!'
         });
-    } catch (error) {
-        next(error)
-    }
-})
-
-//  Example of req.body validation
-router.post('/', validationHandler(createUserSchema), (req, res, next) => {
-    try {
-        res.status(200).json({
-            Message: "Ok"
-        })
     } catch (error) {
         next(error);
     }
-})
+});
+
+router.post(
+    '/register',
+    validationHandler(createUserSchema),
+    async (req, res, next) => {
+        try {
+            const { name, email, password } = req.body;
+            const newUser = {
+                name,
+                email,
+                password
+            };
+
+            const user = await controller.userCreation(newUser);
+            const token = await createToken(user);
+
+            res.cookie('token', token);
+            res.status(201).json({
+                Message: 'Created',
+                User: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email
+                }
+            });
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 module.exports = router;

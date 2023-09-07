@@ -17,7 +17,14 @@ const getPhoneNumberByNumber = async (phoneNumber) => {
     });
 };
 
+const getPhoneNumberByUserId = async (userId) => {
+    return await phoneNumberModel.find({
+        userId: { $in: [userId] }
+    });
+};
+
 module.exports = {
     phoneNumberCreate: createPhoneNumber,
-    phoneNumberByNumber: getPhoneNumberByNumber
+    phoneNumberByNumber: getPhoneNumberByNumber,
+    phoneNumberByUserId: getPhoneNumberByUserId
 };

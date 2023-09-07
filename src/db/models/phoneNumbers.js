@@ -4,7 +4,9 @@ const Schema = mongoose.Schema;
 const phoneNumberSchema = new Schema(
     {
         userId: {
-            type: String
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
         },
         name: {
             type: String

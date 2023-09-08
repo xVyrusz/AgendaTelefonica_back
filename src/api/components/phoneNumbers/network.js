@@ -26,11 +26,12 @@ router.get('/list', checkJwt, async (req, res, next) => {
 
 router.get('/list/:id', checkJwt, async (req, res, next) => {
     try {
-        const userId = req.userData.id;
+        const phoneNumberId = req.params.id;
 
-        const data = await controller.phoneNumberList(userId);
+        const data = await controller.phoneNumberListById(phoneNumberId);
+
         res.status(200).json({
-            Message: 'List One',
+            Message: 'List one',
             Response: data
         });
     } catch (error) {

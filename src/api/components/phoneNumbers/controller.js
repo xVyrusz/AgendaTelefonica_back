@@ -15,13 +15,12 @@ const phoneNumberList = async (userId) => {
     }
 };
 
-const phoneNumberById = async (_id) => {
+const phoneNumberListById = async (_id) => {
     const objPhoneNumber = await store.getPhoneNumberById(_id);
-
     if (objPhoneNumber === null) {
-        throw boom.conflict('Phone numbers not found');
+        throw boom.conflict('Phone number not found');
     } else {
-        return await objPhoneNumber;
+        return objPhoneNumber;
     }
 };
 
@@ -49,5 +48,5 @@ module.exports = {
     phoneNumberList,
     phoneNumberDelete,
     phoneNumberUpdate,
-    phoneNumberById
+    phoneNumberListById
 };

@@ -14,7 +14,12 @@ const getUserByEmail = async (email) => {
     });
 };
 
+const getUserById = async (_id) => {
+    return await userModel.findById(_id);
+};
+
 module.exports = {
     userCreate: createUser,
-    userByEmail: getUserByEmail
+    userByEmail: getUserByEmail,
+    userById: getUserById
 };

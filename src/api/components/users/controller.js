@@ -30,7 +30,19 @@ const userLogin = async (user) => {
     };
 };
 
+const userVerify = async (user) => {
+    const data = await store.userById(user.id);
+    if (!data) throw boom.badData('Unauthorized');
+
+    return {
+        _id: data._id,
+        name: data.name,
+        email: data.email
+    };
+};
+
 module.exports = {
     userCreation,
-    userLogin
+    userLogin,
+    userVerify
 };

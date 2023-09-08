@@ -29,7 +29,6 @@ router.get('/list/:id', checkJwt, async (req, res, next) => {
         const userId = req.userData.id;
 
         const data = await controller.phoneNumberList(userId);
-        console.log(data);
         res.status(200).json({
             Message: 'List One',
             Response: data
